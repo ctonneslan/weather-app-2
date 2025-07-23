@@ -10,10 +10,10 @@ export async function fetchWeather(location) {
 }
 
 export function processWeatherData(data) {
-  const today = data.days[0];
-  return {
-    temp: today.temp,
-    feelsLike: today.feelslike,
-    desc: today.conditions,
-  };
+  return data.days.slice(0, 7).map((day) => ({
+    date: day.datetime,
+    tmep: day.temp,
+    feelsLike: day.feelslike,
+    desc: day.conditions,
+  }));
 }

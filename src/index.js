@@ -22,10 +22,18 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-function displayWeather({ temp, feelsLike, desc }) {
-  display.innerHTML = `
-        <p>Temperature: ${temp}°C</p>
-        <p>Feels Like: ${feelsLike}°C</p>
-        <p>Description: ${desc}</p>
+function displayWeather(forecastArray) {
+  display.innerHTML = "";
+
+  forecastArray.forEach((day) => {
+    const dayEl = document.createElement("div");
+    dayEl.classList.add("weather-day");
+    dayEl.innerHTML = `
+        <h3>${day.date}</h3>
+        <p>${day.desc}</p>
+        <p>Temp: ${day.temp}°C</p>
+        <p>Feels Like: ${day.feelsLike}°C</p>
     `;
+    display.appendChild(dayEl);
+  });
 }
