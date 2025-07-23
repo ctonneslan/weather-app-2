@@ -12,17 +12,21 @@ form.addEventListener("submit", async (e) => {
 
   display.textContent = "Loading...";
 
+  const isFarenheit = document.getElementById("unit-toggle").checked;
+  const unit = isFarenheit ? "us" : "metric";
+  const unitSymbol = isFarenheit ? "°F" : "°C";
+
   try {
-    const data = await fetchWeather(location);
-    const weather = processWeatherData(data);
-    displayWeather(weather);
+    const data = await fetchWeather(location, unit);
+    const forecast = processWeatherData(data);
+    displayWeather(forecast, unitSymbol);
   } catch (err) {
     display.textContent = "Error fetching weather data.";
     console.error(err);
   }
 });
 
-function displayWeather(forecastArray) {
+function displayWeather(forecastArray, unitSymbol) {
   display.innerHTML = "";
 
   forecastArray.forEach((day) => {
@@ -31,8 +35,8 @@ function displayWeather(forecastArray) {
     dayEl.innerHTML = `
         <h3>${day.date}</h3>
         <p>${day.desc}</p>
-        <p>Temp: ${day.temp}°C</p>
-        <p>Feels Like: ${day.feelsLike}°C</p>
+        <p>Temp: ${day.temp}${unitSymbol}</p>
+        <p>Feels Like: ${day.feelsLike}${unitSymbol}</p>
     `;
     display.appendChild(dayEl);
   });
